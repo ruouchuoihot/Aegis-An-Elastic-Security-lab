@@ -91,15 +91,12 @@ services:
       - ${KIBANA_PORT}:5601
     environment:
       - SERVERNAME=kibana
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${AEGIS_KIBANA_ENCRYPTION_KEY:?Run scripts/setup_native_siem.py --prepare first}
       - ELASTICSEARCH_HOSTS=https://es01:9200
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
       - ENTERPRISESEARCH_HOSTS=https://enterprise-search:3002
-      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${KIBANA_ENCRYPTION_KEY}
-      - XPACK_SECURITY_ENCRYPTIONKEY=${KIBANA_SECURITY_ENCRYPTION_KEY}
-      - XPACK_REPORTING_ENCRYPTIONKEY=${KIBANA_REPORTING_ENCRYPTION_KEY}
-      - XPACK_MONITORING_COLLECTION_ENABLED=true
     mem_limit: ${KIBANA_MEM_LIMIT}
     healthcheck:
       test: ["CMD-SHELL", "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'"]
@@ -162,20 +159,38 @@ services:
     depends_on:
       es01:
         condition: service_healthy
-    image: python:3.9-slim
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
     volumes:
-      - ./scripts:/app/scripts
-      - ./rules:/app/rules
+      - ./rules:/app/rules:ro
+      - certs:/app/certs:ro
+      - investigation_data:/app/data
+      - ./lab/runtime/share/results:/app/lab-results:ro
     working_dir: /app
     ports:
-      - "8000:8000"
+      - "127.0.0.1:${AEGIS_GATEWAY_PORT:-8000}:8000"
     environment:
       - ES_URL=https://es01:9200
       - ES_USER=elastic
       - ES_PASSWORD=${ELASTIC_PASSWORD}
-    command: bash -c "pip install fastapi uvicorn httpx && python scripts/aegis_ai_gateway.py"
+      - CA_CERT=/app/certs/ca/ca.crt
+      - AEGIS_GATEWAY_TOKEN=${AEGIS_GATEWAY_TOKEN:-}
+      - AEGIS_ALERT_INDEX=${AEGIS_ALERT_INDEX:-aegis-alerts-default}
+      - AEGIS_LEDGER_PATH=/app/data/investigations.sqlite3
+      - AEGIS_BACKGROUND_ENABLED=1
+      - AEGIS_LAB_RESULTS=/app/lab-results
+      - AEGIS_NATIVE_SIEM=${AEGIS_NATIVE_SIEM:-0}
+      - KIBANA_URL=http://kibana:5601
+      - AEGIS_LLM_BASE_URL=${AEGIS_LLM_BASE_URL:-}
+      - AEGIS_LLM_MODEL=${AEGIS_LLM_MODEL:-}
+      - AEGIS_LLM_API_KEY=${AEGIS_LLM_API_KEY:-}
+      - KIBANA_PUBLIC_URL=${KIBANA_PUBLIC_URL:-http://localhost:5601}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   simulator:
+    profiles: [simulation]
     depends_on:
       es01:
         condition: service_healthy
@@ -191,6 +206,7 @@ services:
 
   # --- Phase 5: Advanced Analytics ---
   qdrant:
+    profiles: [advanced]
     image: qdrant/qdrant:latest
     ports:
       - "${QDRANT_PORT}:6333"
@@ -204,6 +220,7 @@ services:
       retries: 5
 
   spark-master:
+    profiles: [advanced]
     image: apache/spark:3.5.1
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     ports:
@@ -216,6 +233,7 @@ services:
       retries: 5
 
   spark-worker:
+    profiles: [advanced]
     image: apache/spark:3.5.1
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     depends_on:
@@ -224,6 +242,8 @@ services:
       - "${SPARK_WORKER_WEBUI_PORT}:8081"
 
 volumes:
+  investigation_data:
+    driver: local
   certs:
     driver: local
   esdata01:

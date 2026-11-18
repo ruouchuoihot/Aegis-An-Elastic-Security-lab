@@ -68,17 +68,17 @@ def simulate_lateral_movement():
     return events
 
 def simulate_persistence_scheduled_task():
-    """T1053.005: Scheduled Task/Job: Scheduled Task"""
+    """T1053.003: Scheduled Task/Job: Cron"""
     host = "linux-app-01"
     events = [
         {
             "@timestamp": get_timestamp(),
             "ecs": {"version": "8.11.0"},
-            "message": "Scheduled task created for persistence",
+            "message": "Synthetic cron persistence event",
             "event": {"kind": "event", "category": ["process", "host"], "type": ["start", "info"], "module": "aegis", "dataset": "simulation"},
             "process": {"name": "crontab", "command_line": "echo '*/5 * * * * /tmp/.hidden_script' | crontab -"},
             "host": {"hostname": host, "name": host},
-            "threat": {"technique": {"id": "T1053.005", "name": "Scheduled Task/Job: Scheduled Task"}}
+            "threat": {"technique": {"id": "T1053.003", "name": "Scheduled Task/Job: Cron"}}
         }
     ]
     return events
@@ -120,6 +120,7 @@ def main():
             scenario = random.choice(SCENARIOS)
             events = scenario()
             for e in events:
+                e["aegis"] = {"synthetic": True}
                 actions.append(json.dumps({"create": {"_index": INDEX}}))
                 actions.append(json.dumps(e))
         

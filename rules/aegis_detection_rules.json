@@ -37,8 +37,8 @@
     "query": "process.name:crontab AND process.command_line:*hidden_script*",
     "mitre": {
       "tactic": "Persistence",
-      "technique_id": "T1053.005",
-      "technique_name": "Scheduled Task/Job: Scheduled Task"
+      "technique_id": "T1053.003",
+      "technique_name": "Scheduled Task/Job: Cron"
     }
   },
   {
@@ -53,6 +53,484 @@
       "tactic": "Discovery",
       "technique_id": "T1057",
       "technique_name": "Process Discovery"
+    }
+  },
+  {
+    "id": "aegis-windows-lab-process-discovery-tasklist",
+    "name": "Windows Lab: Process Discovery via tasklist",
+    "description": "Detects actual tasklist process creation collected by Sysmon from the Windows lab. A match does not establish malicious intent.",
+    "severity": "low",
+    "risk_score": 35,
+    "index": "logs-aegis.windows-*",
+    "query": "winlog.provider_name:\"Microsoft-Windows-Sysmon\" AND event.code:1 AND process.name:\"tasklist.exe\"",
+    "mitre": {
+      "tactic": "Discovery",
+      "technique_id": "T1057",
+      "technique_name": "Process Discovery"
+    }
+  },
+  {
+    "id": "aegis-windows-lab-user-discovery",
+    "name": "Windows Lab: User Discovery - whoami",
+    "description": "Native Sysmon discovery process creation; does not establish compromise or authorization.",
+    "severity": "low",
+    "risk_score": 25,
+    "index": "logs-aegis.windows-*",
+    "query": "winlog.provider_name:\"Microsoft-Windows-Sysmon\" AND event.code:1 AND process.name:(\"whoami.exe\")",
+    "mitre": {
+      "tactic": "Discovery",
+      "technique_id": "T1033",
+      "technique_name": "User Discovery - whoami"
+    }
+  },
+  {
+    "id": "aegis-windows-lab-hostname-discovery",
+    "name": "Windows Lab: Hostname Discovery",
+    "description": "Native Sysmon discovery process creation; does not establish compromise or authorization.",
+    "severity": "low",
+    "risk_score": 25,
+    "index": "logs-aegis.windows-*",
+    "query": "winlog.provider_name:\"Microsoft-Windows-Sysmon\" AND event.code:1 AND process.name:(\"hostname.exe\")",
+    "mitre": {
+      "tactic": "Discovery",
+      "technique_id": "T1082",
+      "technique_name": "Hostname Discovery"
+    }
+  },
+  {
+    "id": "aegis-windows-lab-system-discovery",
+    "name": "Windows Lab: System Information Discovery",
+    "description": "Native Sysmon discovery process creation; does not establish compromise or authorization.",
+    "severity": "low",
+    "risk_score": 25,
+    "index": "logs-aegis.windows-*",
+    "query": "winlog.provider_name:\"Microsoft-Windows-Sysmon\" AND event.code:1 AND process.name:(\"systeminfo.exe\" OR \"reg.exe\")",
+    "mitre": {
+      "tactic": "Discovery",
+      "technique_id": "T1082",
+      "technique_name": "System Information Discovery"
+    }
+  },
+  {
+    "id": "aegis-windows-lab-network-discovery",
+    "name": "Windows Lab: Network Configuration Discovery",
+    "description": "Native Sysmon discovery process creation; does not establish compromise or authorization.",
+    "severity": "low",
+    "risk_score": 25,
+    "index": "logs-aegis.windows-*",
+    "query": "winlog.provider_name:\"Microsoft-Windows-Sysmon\" AND event.code:1 AND process.name:(\"ipconfig.exe\" OR \"netsh.exe\" OR \"arp.exe\" OR \"nbtstat.exe\" OR \"net.exe\")",
+    "mitre": {
+      "tactic": "Discovery",
+      "technique_id": "T1016",
+      "technique_name": "Network Configuration Discovery"
+    }
+  },
+  {
+    "id": "aegis-aisoc-encoded-powershell",
+    "name": "AiSOC: Encoded PowerShell execution",
+    "enabled": true,
+    "description": "Broadened from upstream encoded + execution-policy bypass to encoded execution alone, including supported short flags. Severity lowered to medium.",
+    "severity": "medium",
+    "risk_score": 50,
+    "index": "logs-aegis.windows-*",
+    "query_dsl": {
+      "bool": {
+        "filter": [
+          {
+            "bool": {
+              "should": [
+                {
+                  "term": {
+                    "winlog.provider_name": "Microsoft-Windows-Sysmon"
+                  }
+                },
+                {
+                  "term": {
+                    "winlog.provider_name.keyword": "Microsoft-Windows-Sysmon"
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          },
+          {
+            "term": {
+              "event.code": "1"
+            }
+          },
+          {
+            "term": {
+              "process.name": "powershell.exe"
+            }
+          },
+          {
+            "bool": {
+              "should": [
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "* -e *",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "* -en *",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "* -enc *",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "* -encodedcommand *",
+                      "case_insensitive": true
+                    }
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          }
+        ]
+      }
+    },
+    "mitre": {
+      "tactic": "Execution",
+      "technique_id": "T1059.001",
+      "technique_name": "Encoded PowerShell execution"
+    },
+    "false_positives": [
+      "Vendor management agents (allowlist by signed publisher)"
+    ],
+    "provenance": {
+      "pack": "aisoc-windows-v1",
+      "repository": "https://github.com/beenuar/AiSOC",
+      "revision": "2a0d550165b9f82108a3fe1c487c44aa96ed1b24",
+      "path": "detections/endpoint/powershell-encoded-command.yaml",
+      "upstream_id": "det-endpoint-005",
+      "upstream_name": "PowerShell with Encoded Command and Bypass Flag",
+      "upstream_severity": "high",
+      "license": "MIT",
+      "adaptation": "Broadened from upstream encoded + execution-policy bypass to encoded execution alone, including supported short flags. Severity lowered to medium."
+    }
+  },
+  {
+    "id": "aegis-aisoc-registry-run-key",
+    "name": "AiSOC: Registry Run key value set",
+    "enabled": true,
+    "description": "RegistryValueSet maps to Sysmon 13. Sysmon HKU\\SID roots normalize to HKCU; value name is removed before comparing the exact parent key.",
+    "severity": "high",
+    "risk_score": 70,
+    "index": "logs-aegis.windows-*",
+    "query_dsl": {
+      "bool": {
+        "filter": [
+          {
+            "bool": {
+              "should": [
+                {
+                  "term": {
+                    "winlog.provider_name": "Microsoft-Windows-Sysmon"
+                  }
+                },
+                {
+                  "term": {
+                    "winlog.provider_name.keyword": "Microsoft-Windows-Sysmon"
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          },
+          {
+            "term": {
+              "event.code": "13"
+            }
+          },
+          {
+            "terms": {
+              "aegis.registry.key": [
+                "hklm\\software\\microsoft\\windows\\currentversion\\run",
+                "hkcu\\software\\microsoft\\windows\\currentversion\\run",
+                "hklm\\software\\microsoft\\windows\\currentversion\\runonce"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "mitre": {
+      "tactic": "Persistence",
+      "technique_id": "T1547.001",
+      "technique_name": "Registry Run key value set"
+    },
+    "false_positives": [
+      "Software installers (allowlist by signed publisher)"
+    ],
+    "provenance": {
+      "pack": "aisoc-windows-v1",
+      "repository": "https://github.com/beenuar/AiSOC",
+      "revision": "2a0d550165b9f82108a3fe1c487c44aa96ed1b24",
+      "path": "detections/endpoint/registry-runkey-write.yaml",
+      "upstream_id": "det-endpoint-008",
+      "upstream_name": "Persistence via Registry Run Key Write",
+      "upstream_severity": "high",
+      "license": "MIT",
+      "adaptation": "RegistryValueSet maps to Sysmon 13. Sysmon HKU\\SID roots normalize to HKCU; value name is removed before comparing the exact parent key."
+    }
+  },
+  {
+    "id": "aegis-aisoc-task-suspicious-path",
+    "name": "AiSOC: Scheduled task action in writable directory",
+    "enabled": true,
+    "description": "ScheduledTaskCreate maps to Security 4698; action Command is extracted from TaskContent XML. Task creation is distinct from action execution.",
+    "severity": "high",
+    "risk_score": 70,
+    "index": "logs-aegis.windows-*",
+    "query_dsl": {
+      "bool": {
+        "filter": [
+          {
+            "term": {
+              "event.code": "4698"
+            }
+          },
+          {
+            "bool": {
+              "should": [
+                {
+                  "term": {
+                    "winlog.provider_name": "Microsoft-Windows-Security-Auditing"
+                  }
+                },
+                {
+                  "term": {
+                    "winlog.provider_name.keyword": "Microsoft-Windows-Security-Auditing"
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          },
+          {
+            "bool": {
+              "should": [
+                {
+                  "wildcard": {
+                    "aegis.task.command_path": {
+                      "value": "C:\\\\Users\\\\Public\\\\*",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "aegis.task.command_path": {
+                      "value": "C:\\\\ProgramData\\\\*",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "aegis.task.command_path": {
+                      "value": "C:\\\\Windows\\\\Temp\\\\*",
+                      "case_insensitive": true
+                    }
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          }
+        ]
+      }
+    },
+    "mitre": {
+      "tactic": "Persistence",
+      "technique_id": "T1053.005",
+      "technique_name": "Scheduled task action in writable directory"
+    },
+    "false_positives": [
+      "Software installers (allowlist by signed publisher)"
+    ],
+    "provenance": {
+      "pack": "aisoc-windows-v1",
+      "repository": "https://github.com/beenuar/AiSOC",
+      "revision": "2a0d550165b9f82108a3fe1c487c44aa96ed1b24",
+      "path": "detections/endpoint/scheduled-task-create-suspicious.yaml",
+      "upstream_id": "det-endpoint-007",
+      "upstream_name": "Scheduled Task Created Pointing to Suspicious Path",
+      "upstream_severity": "high",
+      "license": "MIT",
+      "adaptation": "ScheduledTaskCreate maps to Security 4698; action Command is extracted from TaskContent XML. Task creation is distinct from action execution."
+    }
+  },
+  {
+    "id": "aegis-aisoc-task-encoded-command",
+    "name": "AiSOC: Scheduled task contains encoded PowerShell command",
+    "enabled": true,
+    "description": "Upstream task_command maps to combined action Command + Arguments from Security 4698 TaskContent XML. This detects task configuration, not proof of execution.",
+    "severity": "high",
+    "risk_score": 70,
+    "index": "logs-aegis.windows-*",
+    "query_dsl": {
+      "bool": {
+        "filter": [
+          {
+            "term": {
+              "event.code": "4698"
+            }
+          },
+          {
+            "bool": {
+              "should": [
+                {
+                  "term": {
+                    "winlog.provider_name": "Microsoft-Windows-Security-Auditing"
+                  }
+                },
+                {
+                  "term": {
+                    "winlog.provider_name.keyword": "Microsoft-Windows-Security-Auditing"
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          },
+          {
+            "wildcard": {
+              "aegis.task.command": {
+                "value": "*-encodedcommand*",
+                "case_insensitive": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    "mitre": {
+      "tactic": "Execution",
+      "technique_id": "T1053.005",
+      "technique_name": "Scheduled task contains encoded PowerShell command"
+    },
+    "false_positives": [
+      "Vendor agent that uses encoded payloads (allow-listed)"
+    ],
+    "provenance": {
+      "pack": "aisoc-windows-v1",
+      "repository": "https://github.com/beenuar/AiSOC",
+      "revision": "2a0d550165b9f82108a3fe1c487c44aa96ed1b24",
+      "path": "detections/endpoint/win-task-runs-encoded-powershell.yaml",
+      "upstream_id": "det-endpoint-045",
+      "upstream_name": "Scheduled Task Runs Encoded PowerShell",
+      "upstream_severity": "high",
+      "license": "MIT",
+      "adaptation": "Upstream task_command maps to combined action Command + Arguments from Security 4698 TaskContent XML. This detects task configuration, not proof of execution."
+    }
+  },
+  {
+    "id": "aegis-aisoc-certutil-decode",
+    "name": "AiSOC: Certutil decode or URL cache operation",
+    "enabled": true,
+    "description": "Sysmon event_id/process_name/process_command_line map to event.code/process.name/process.command_line. Upstream URL-cache branch is retained; a match does not prove decoding or execution succeeded.",
+    "severity": "high",
+    "risk_score": 70,
+    "index": "logs-aegis.windows-*",
+    "query_dsl": {
+      "bool": {
+        "filter": [
+          {
+            "bool": {
+              "should": [
+                {
+                  "term": {
+                    "winlog.provider_name": "Microsoft-Windows-Sysmon"
+                  }
+                },
+                {
+                  "term": {
+                    "winlog.provider_name.keyword": "Microsoft-Windows-Sysmon"
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          },
+          {
+            "term": {
+              "event.code": "1"
+            }
+          },
+          {
+            "term": {
+              "process.name": "certutil.exe"
+            }
+          },
+          {
+            "bool": {
+              "should": [
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "*-decode*",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "*-decodehex*",
+                      "case_insensitive": true
+                    }
+                  }
+                },
+                {
+                  "wildcard": {
+                    "process.command_line": {
+                      "value": "*-urlcache -split -f*",
+                      "case_insensitive": true
+                    }
+                  }
+                }
+              ],
+              "minimum_should_match": 1
+            }
+          }
+        ]
+      }
+    },
+    "mitre": {
+      "tactic": "Defense Evasion",
+      "technique_id": "T1140",
+      "technique_name": "Certutil decode or URL cache operation"
+    },
+    "false_positives": [
+      "Approved patch / maintenance window activity"
+    ],
+    "provenance": {
+      "pack": "aisoc-windows-v1",
+      "repository": "https://github.com/beenuar/AiSOC",
+      "revision": "2a0d550165b9f82108a3fe1c487c44aa96ed1b24",
+      "path": "detections/endpoint/win-certutil-decode.yaml",
+      "upstream_id": "det-endpoint-086",
+      "upstream_name": "certutil.exe Used To Decode Encoded File",
+      "upstream_severity": "high",
+      "license": "MIT",
+      "adaptation": "Sysmon event_id/process_name/process_command_line map to event.code/process.name/process.command_line. Upstream URL-cache branch is retained; a match does not prove decoding or execution succeeded."
     }
   }
 ]

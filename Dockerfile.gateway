@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY scripts/ ./scripts/
+COPY lab/windows/atomic_catalog.json ./lab/windows/atomic_catalog.json
+COPY static/ ./static/
+ENV AEGIS_GATEWAY_HOST=0.0.0.0
+EXPOSE 8000
+CMD ["python", "scripts/aegis_ai_gateway.py"]

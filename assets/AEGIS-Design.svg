@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="1040" viewBox="0 0 1840 1040" role="img" aria-labelledby="title desc">
+<title id="title">Project Aegis Architecture</title>
+<desc id="desc">Three-column architecture: Atomic Red Team simulates activity on Windows, Winlogbeat sends endpoint events to Elasticsearch, Elastic Security produces native SIEM alerts, and Aegis pulls alerts via API for parallel analyst and critic reviews, server join, report writing and SQLite audit storage. The LLM gateway is external.</desc>
+<defs>
+  <linearGradient id="tealHead" x2="1" y2="1"><stop stop-color="#087d89"/><stop offset="1" stop-color="#086773"/></linearGradient>
+  <linearGradient id="blueHead" x2="1" y2="1"><stop stop-color="#073e8b"/><stop offset="1" stop-color="#08316b"/></linearGradient>
+  <linearGradient id="purpleHead" x2="1" y2="1"><stop stop-color="#693aa0"/><stop offset="1" stop-color="#542788"/></linearGradient>
+  <linearGradient id="cardFill" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#f9fbfd"/></linearGradient>
+  <filter id="shadow" x="-10%" y="-15%" width="125%" height="135%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#15334d" flood-opacity="0.10"/></filter>
+</defs>
+<rect width="1840" height="1040" fill="white"/>
+<g font-family="Arial,Segoe UI,sans-serif">
+<text x="920" y="62" font-size="48" fill="#080e21" font-weight="700" text-anchor="middle">Project Aegis Architecture</text>
+<rect x="45" y="100" width="350" height="840" rx="17" fill="white" stroke="#087d89" stroke-width="2.3" filter="url(#shadow)"/>
+<path d="M62 100 H378 Q395 100 395 117 V155 H45 V117 Q45 100 62 100 Z" fill="url(#tealHead)"/>
+<text x="220.0" y="137" font-size="26" fill="white" font-weight="700" text-anchor="middle">Telemetry &amp; Simulation</text>
+<rect x="425" y="100" width="765" height="840" rx="17" fill="white" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<path d="M442 100 H1173 Q1190 100 1190 117 V155 H425 V117 Q425 100 442 100 Z" fill="url(#blueHead)"/>
+<text x="807.5" y="137" font-size="26" fill="white" font-weight="700" text-anchor="middle">Elastic 8.x Core</text>
+<rect x="1220" y="100" width="575" height="840" rx="17" fill="white" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<path d="M1237 100 H1778 Q1795 100 1795 117 V155 H1220 V117 Q1220 100 1237 100 Z" fill="url(#purpleHead)"/>
+<text x="1507.5" y="137" font-size="26" fill="white" font-weight="700" text-anchor="middle">AI &amp; Investigation</text>
+<rect x="75" y="225" width="290" height="145" rx="12" fill="url(#cardFill)" stroke="#087d89" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(93,271.5) scale(0.8125)" fill="none" stroke="#087d89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M10 52 L38 24 L46 32 L18 60 Z" fill="#087d89"/><path d="M17 8 V22 M10 15 H24 M48 4 V20 M40 12 H56 M52 41 V55 M45 48 H59"/>
+</g>
+<text x="161" y="261" font-size="21" fill="#101828" font-weight="700" text-anchor="start">Atomic Red Team</text>
+<text x="161" y="289" font-size="16" fill="#101828" font-weight="400" text-anchor="start">ATT&amp;CK test execution</text>
+<text x="161" y="313" font-size="16" fill="#101828" font-weight="400" text-anchor="start">Scheduled simulation</text>
+<text x="161" y="337" font-size="16" fill="#101828" font-weight="400" text-anchor="start">Test cleanup</text>
+<rect x="75" y="445" width="290" height="145" rx="12" fill="url(#cardFill)" stroke="#087d89" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(93,491.5) scale(0.8125)" fill="none" stroke="#087d89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M32 3 L55 13 V32 Q55 48 32 60 Q9 48 9 32 V13 Z"/><path d="M21 23 H43 M21 32 H43 M21 41 H35"/>
+</g>
+<text x="161" y="481" font-size="20" fill="#101828" font-weight="700" text-anchor="start">Windows Endpoint</text>
+<text x="161" y="509" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Sysmon · Security</text>
+<text x="161" y="533" font-size="15" fill="#101828" font-weight="400" text-anchor="start">PowerShell event logging</text>
+<text x="161" y="557" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Process · registry · tasks</text>
+<rect x="75" y="665" width="290" height="145" rx="12" fill="url(#cardFill)" stroke="#087d89" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(93,711.5) scale(0.8125)" fill="none" stroke="#087d89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 34 H14 L21 13 L31 52 L42 20 L49 34 H60"/>
+</g>
+<text x="161" y="701" font-size="23" fill="#101828" font-weight="700" text-anchor="start">Winlogbeat</text>
+<text x="161" y="729" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Collect Windows channels</text>
+<text x="161" y="753" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Buffer · retry delivery</text>
+<text x="161" y="777" font-size="15" fill="#101828" font-weight="400" text-anchor="start">HTTPS + scoped API key</text>
+<text x="220" y="921" font-size="14" fill="#087d89" font-weight="400" text-anchor="middle">Atomic metadata stays outside AI evidence</text>
+<path d="M220 370 L220 445" fill="none" stroke="white" stroke-width="7"/>
+<path d="M220 370 L220 445" fill="none" stroke="#087d89" stroke-width="2.2"/>
+<polygon points="220,445 214.0,433.0 226.0,433.0" fill="#087d89"/>
+<text x="235" y="412" font-size="15" fill="#101828" font-weight="400" text-anchor="start">native activity</text>
+<path d="M220 590 L220 665" fill="none" stroke="white" stroke-width="7"/>
+<path d="M220 590 L220 665" fill="none" stroke="#087d89" stroke-width="2.2"/>
+<polygon points="220,665 214.0,653.0 226.0,653.0" fill="#087d89"/>
+<text x="235" y="632" font-size="15" fill="#101828" font-weight="400" text-anchor="start">collect events</text>
+<rect x="460" y="225" width="350" height="585" rx="12" fill="url(#cardFill)" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(480,253) scale(0.84375)" fill="none" stroke="#093c84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 17 C19 0 48 0 58 17 L48 24 H17 Z" fill="#fecb19" stroke="none"/><path d="M8 26 H43 Q56 32 43 38 H8 Z" fill="#0873b8" stroke="none"/><path d="M7 26 H24 V38 H7 Z" fill="#232f3e" stroke="none"/><path d="M10 42 H48 L58 49 C45 66 19 64 9 47 Z" fill="#00b6ad" stroke="none"/>
+</g>
+<text x="547" y="280" font-size="27" fill="#101828" font-weight="700" text-anchor="start">Elasticsearch</text>
+<text x="635" y="335" font-size="16" fill="#101828" font-weight="400" text-anchor="middle">Ingest pipelines · ECS normalization</text>
+<text x="635" y="361" font-size="16" fill="#101828" font-weight="400" text-anchor="middle">Index · store · search · aggregate</text>
+<rect x="480" y="425" width="310" height="80" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(491,450) scale(0.421875)" fill="none" stroke="#093c84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<ellipse cx="32" cy="12" rx="23" ry="9"/><path d="M9 12 V50 C9 62 55 62 55 50 V12 M9 30 C9 42 55 42 55 30 M9 44 C9 56 55 56 55 44"/>
+</g>
+<text x="528" y="471" font-size="16" fill="#101828" font-weight="400" text-anchor="start">logs-aegis.windows-default</text>
+<rect x="480" y="560" width="310" height="80" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(491,585) scale(0.421875)" fill="none" stroke="#093c84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<ellipse cx="32" cy="12" rx="23" ry="9"/><path d="M9 12 V50 C9 62 55 62 55 50 V12 M9 30 C9 42 55 42 55 30 M9 44 C9 56 55 56 55 44"/>
+</g>
+<text x="528" y="606" font-size="14" fill="#101828" font-weight="400" text-anchor="start">.alerts-security.alerts-default</text>
+<text x="635" y="710" font-size="16" fill="#101828" font-weight="400" text-anchor="middle">Original endpoint events</text>
+<text x="635" y="736" font-size="15" fill="#101828" font-weight="400" text-anchor="middle">Native SIEM alerts · source references</text>
+<rect x="875" y="225" width="280" height="585" rx="12" fill="url(#cardFill)" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(930,249) scale(0.703125)" fill="none" stroke="#093c84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M7 4 H57 L7 54 Z" fill="#ef287e" stroke="none"/><path d="M7 32 Q44 32 57 58 H7 Z" fill="#00a59e" stroke="none"/><path d="M7 32 L30 32 L7 54 Z" fill="#007a85" stroke="none"/>
+</g>
+<text x="990" y="282" font-size="28" fill="#101828" font-weight="700" text-anchor="start">Kibana</text>
+<text x="1015" y="321" font-size="14" fill="#101828" font-weight="400" text-anchor="middle">Explore · visualize · investigate · manage</text>
+<rect x="895" y="370" width="240" height="75" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="1015" y="398" font-size="20" fill="#101828" font-weight="700" text-anchor="middle">Discover</text>
+<text x="1015" y="424" font-size="13" fill="#101828" font-weight="400" text-anchor="middle">Log search · filters · event inspection</text>
+<rect x="895" y="465" width="240" height="75" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="1015" y="493" font-size="20" fill="#101828" font-weight="700" text-anchor="middle">Dashboards / Lens</text>
+<text x="1015" y="519" font-size="13" fill="#101828" font-weight="400" text-anchor="middle">Charts · tables · visual analysis</text>
+<rect x="895" y="700" width="240" height="75" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="1015" y="728" font-size="20" fill="#101828" font-weight="700" text-anchor="middle">Stack Management</text>
+<text x="1015" y="754" font-size="13" fill="#101828" font-weight="400" text-anchor="middle">Data views · saved objects · access</text>
+<rect x="895" y="560" width="240" height="120" rx="7" fill="#f2f6ff" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="1015" y="588" font-size="20" fill="#101828" font-weight="700" text-anchor="middle">Elastic Security</text>
+<text x="1015" y="615" font-size="14" fill="#101828" font-weight="400" text-anchor="middle">Detection rules · schedules · alerts</text>
+<text x="1015" y="640" font-size="14" fill="#101828" font-weight="400" text-anchor="middle">Severity · risk · rule editing</text>
+<text x="1015" y="664" font-size="14" fill="#101828" font-weight="400" text-anchor="middle">Timeline · Cases (in Kibana)</text>
+<path d="M365 737 L460 737" fill="none" stroke="white" stroke-width="7"/>
+<path d="M365 737 L460 737" fill="none" stroke="#101828" stroke-width="2.2"/>
+<polygon points="460,737 448.0,743.0 448.0,731.0" fill="#101828"/>
+<text x="412" y="723" font-size="13" fill="#101828" font-weight="400" text-anchor="middle">HTTPS</text>
+<path d="M810 390 L875 390" fill="none" stroke="white" stroke-width="7"/>
+<path d="M810 390 L875 390" fill="none" stroke="#101828" stroke-width="2.2"/>
+<polygon points="875,390 863.0,396.0 863.0,384.0" fill="#101828"/>
+<polygon points="810,390 822.0,384.0 822.0,396.0" fill="#101828"/>
+<text x="842" y="364" font-size="12" fill="#101828" font-weight="400" text-anchor="middle">queries</text>
+<text x="842" y="380" font-size="12" fill="#101828" font-weight="400" text-anchor="middle">results</text>
+<path d="M895 600 L790 600" fill="none" stroke="white" stroke-width="7"/>
+<path d="M895 600 L790 600" fill="none" stroke="#087d89" stroke-width="2.2"/>
+<polygon points="790,600 802.0,594.0 802.0,606.0" fill="#087d89"/>
+<text x="842" y="624" font-size="12" fill="#101828" font-weight="400" text-anchor="middle">alerts</text>
+<rect x="1260" y="190" width="225" height="120" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1278,230.5) scale(0.609375)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="6" y="7" width="52" height="36" rx="3"/><path d="M32 43 V55 M19 56 H45"/>
+</g>
+<text x="1333" y="226" font-size="21" fill="#101828" font-weight="700" text-anchor="start">Aegis Portal</text>
+<text x="1333" y="254" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Priority triage · filters</text>
+<text x="1333" y="278" font-size="14" fill="#101828" font-weight="400" text-anchor="start">AI analysis · progress</text>
+<text x="1333" y="302" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Reports · operations</text>
+<rect x="1530" y="190" width="225" height="120" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)" stroke-dasharray="9 6"/>
+<g transform="translate(1548,230.5) scale(0.609375)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M32 10 L10 24 L10 47 L32 58 L54 45 L54 23 Z M32 10 V58 M10 24 L54 45 M54 23 L10 47"/>
+<circle cx="32" cy="10" r="5" fill="white"/>
+<circle cx="10" cy="24" r="5" fill="white"/>
+<circle cx="10" cy="47" r="5" fill="white"/>
+<circle cx="32" cy="58" r="5" fill="white"/>
+<circle cx="54" cy="45" r="5" fill="white"/>
+<circle cx="54" cy="23" r="5" fill="white"/>
+<circle cx="32" cy="34" r="5" fill="white"/>
+</g>
+<text x="1603" y="226" font-size="20" fill="#101828" font-weight="700" text-anchor="start">External LLM</text>
+<text x="1603" y="254" font-size="14" fill="#101828" font-weight="400" text-anchor="start">OpenAI-compatible API</text>
+<text x="1603" y="278" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Model inference</text>
+<text x="1603" y="302" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Analyst · critic · writer</text>
+<rect x="1260" y="355" width="495" height="120" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1278,386.5) scale(0.890625)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M32 10 L10 24 L10 47 L32 58 L54 45 L54 23 Z M32 10 V58 M10 24 L54 45 M54 23 L10 47"/>
+<circle cx="32" cy="10" r="5" fill="white"/>
+<circle cx="10" cy="24" r="5" fill="white"/>
+<circle cx="10" cy="47" r="5" fill="white"/>
+<circle cx="32" cy="58" r="5" fill="white"/>
+<circle cx="54" cy="45" r="5" fill="white"/>
+<circle cx="54" cy="23" r="5" fill="white"/>
+<circle cx="32" cy="34" r="5" fill="white"/>
+</g>
+<text x="1351" y="391" font-size="26" fill="#101828" font-weight="700" text-anchor="start">AI Gateway / FastAPI</text>
+<text x="1351" y="419" font-size="17" fill="#101828" font-weight="400" text-anchor="start">Pull alerts · retrieve evidence · correlate</text>
+<text x="1351" y="443" font-size="17" fill="#101828" font-weight="400" text-anchor="start">Scope checks · queued job orchestration</text>
+<text x="1351" y="467" font-size="17" fill="#101828" font-weight="400" text-anchor="start">REST APIs · SIEM integration · MCP adapter</text>
+<path d="M1372 310 L1372 355" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1372 310 L1372 355" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1372,355 1366.0,343.0 1378.0,343.0" fill="#63339a"/>
+<text x="1390" y="339" font-size="14" fill="#101828" font-weight="400" text-anchor="start">REST</text>
+<path d="M1642 355 L1642 310" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1642 355 L1642 310" fill="none" stroke="#63339a" stroke-width="2.2" stroke-dasharray="8 6"/>
+<polygon points="1642,310 1648.0,322.0 1636.0,322.0" fill="#63339a"/>
+<text x="1659" y="339" font-size="14" fill="#101828" font-weight="400" text-anchor="start">chat completions</text>
+<path d="M1260 405 L1205 405 L1205 190 L840 190 L840 280 L810 280" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1260 405 L1205 405 L1205 190 L840 190 L840 280 L810 280" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="810,280 822.0,274.0 822.0,286.0" fill="#63339a"/>
+<polygon points="1260,405 1248.0,411.0 1248.0,399.0" fill="#63339a"/>
+<text x="1025" y="180" font-size="17" fill="#101828" font-weight="400" text-anchor="middle">Pull alerts via API</text>
+<rect x="1260" y="535" width="225" height="120" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1278,574.0) scale(0.65625)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="24" cy="16" r="10"/><path d="M6 49 Q6 30 24 30 Q34 30 39 37"/><circle cx="45" cy="43" r="11"/><path d="M53 51 L61 60"/>
+</g>
+<text x="1336" y="571" font-size="22" fill="#101828" font-weight="700" text-anchor="start">Detection</text>
+<text x="1336" y="599" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Analyst</text>
+<text x="1336" y="623" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Behavior + indicators</text>
+<text x="1336" y="647" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Cited assessment</text>
+<rect x="1530" y="535" width="225" height="120" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1548,574.0) scale(0.65625)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M32 4 L54 14 V32 Q54 48 32 60 Q10 48 10 32 V14 Z"/><path d="M22 24 Q22 14 32 14 Q44 14 42 25 Q42 30 32 34 V40"/><circle cx="32" cy="48" r="1.5" fill="currentColor"/>
+</g>
+<text x="1606" y="571" font-size="22" fill="#101828" font-weight="700" text-anchor="start">Evidence</text>
+<text x="1606" y="599" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Critic · evidence gaps</text>
+<text x="1606" y="623" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Alternative causes</text>
+<text x="1606" y="647" font-size="14" fill="#101828" font-weight="400" text-anchor="start">Independent review</text>
+<path d="M1507 475 L1507 510 L1372 510 L1372 535" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1507 475 L1507 510 L1372 510 L1372 535" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1372,535 1366.0,523.0 1378.0,523.0" fill="#63339a"/>
+<path d="M1507 510 L1642 510 L1642 535" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1507 510 L1642 510 L1642 535" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1642,535 1636.0,523.0 1648.0,523.0" fill="#63339a"/>
+<text x="1507" y="499" font-size="14" fill="#101828" font-weight="400" text-anchor="middle">same evidence · parallel reviews</text>
+<rect x="1385" y="685" width="245" height="100" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1403,717.5) scale(0.546875)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M10 6 V23 Q10 32 32 37 M54 6 V23 Q54 32 32 37 M32 37 V58 M24 50 L32 58 L40 50"/>
+</g>
+<text x="1454" y="721" font-size="22" fill="#101828" font-weight="700" text-anchor="start">Server Join</text>
+<text x="1454" y="749" font-size="12" fill="#101828" font-weight="400" text-anchor="start">Validate evidence + verdict</text>
+<text x="1454" y="773" font-size="12" fill="#101828" font-weight="400" text-anchor="start">Resolve review agreement</text>
+<path d="M1372 655 L1372 675 L1507 675 L1507 685" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1372 655 L1372 675 L1507 675 L1507 685" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1507,685 1501.0,673.0 1513.0,673.0" fill="#63339a"/>
+<path d="M1642 655 L1642 675 L1507 675" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1642 655 L1642 675 L1507 675" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<rect x="1260" y="810" width="225" height="105" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1278,844.0) scale(0.578125)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M13 3 H41 L54 16 V61 H13 Z M41 3 V17 H54 M23 29 H44 M23 38 H44 M23 47 H39"/>
+</g>
+<text x="1331" y="846" font-size="20" fill="#101828" font-weight="700" text-anchor="start">Report Writer</text>
+<text x="1331" y="874" font-size="12" fill="#101828" font-weight="400" text-anchor="start">Summarize joined findings</text>
+<text x="1331" y="898" font-size="12" fill="#101828" font-weight="400" text-anchor="start">Evidence · gaps · next steps</text>
+<rect x="1530" y="810" width="225" height="105" rx="12" fill="url(#cardFill)" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<g transform="translate(1548,844.0) scale(0.578125)" fill="none" stroke="#63339a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<ellipse cx="32" cy="12" rx="23" ry="9"/><path d="M9 12 V50 C9 62 55 62 55 50 V12 M9 30 C9 42 55 42 55 30 M9 44 C9 56 55 56 55 44"/>
+</g>
+<text x="1601" y="846" font-size="20" fill="#101828" font-weight="700" text-anchor="start">SQLite Ledger</text>
+<text x="1601" y="874" font-size="13" fill="#101828" font-weight="400" text-anchor="start">Queue · stages · results</text>
+<text x="1601" y="898" font-size="13" fill="#101828" font-weight="400" text-anchor="start">Snapshots · hash chain</text>
+<path d="M1507 785 L1507 798 L1372 798 L1372 810" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1507 785 L1507 798 L1372 798 L1372 810" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1372,810 1366.0,798.0 1378.0,798.0" fill="#63339a"/>
+<text x="1385" y="794" font-size="12" fill="#101828" font-weight="400" text-anchor="start">valid reviews</text>
+<path d="M1485 862 L1530 862" fill="none" stroke="white" stroke-width="7"/>
+<path d="M1485 862 L1530 862" fill="none" stroke="#63339a" stroke-width="2.2"/>
+<polygon points="1530,862 1518.0,868.0 1518.0,856.0" fill="#63339a"/>
+<text x="1507" y="846" font-size="12" fill="#101828" font-weight="400" text-anchor="middle">save</text>
+<path d="M55 1002 L125 1002" fill="none" stroke="white" stroke-width="7"/>
+<path d="M55 1002 L125 1002" fill="none" stroke="#101828" stroke-width="2.2"/>
+<polygon points="125,1002 113.0,1008.0 113.0,996.0" fill="#101828"/>
+<text x="138" y="1008" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Primary data / API flow</text>
+<path d="M430 1002 L500 1002" fill="none" stroke="white" stroke-width="7"/>
+<path d="M430 1002 L500 1002" fill="none" stroke="#63339a" stroke-width="2.2" stroke-dasharray="8 6"/>
+<polygon points="500,1002 488.0,1008.0 488.0,996.0" fill="#63339a"/>
+<text x="513" y="1008" font-size="15" fill="#101828" font-weight="400" text-anchor="start">External LLM API</text>
+<rect x="800" y="988" width="46" height="28" rx="5" fill="white" stroke="#093c84" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="860" y="1008" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Elastic components</text>
+<rect x="1150" y="988" width="46" height="28" rx="5" fill="white" stroke="#63339a" stroke-width="2.3" filter="url(#shadow)"/>
+<text x="1210" y="1008" font-size="15" fill="#101828" font-weight="400" text-anchor="start">Aegis / AI components</text>
+<g transform="translate(1545,986) scale(0.484375)" fill="none" stroke="#093c84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<ellipse cx="32" cy="12" rx="23" ry="9"/><path d="M9 12 V50 C9 62 55 62 55 50 V12 M9 30 C9 42 55 42 55 30 M9 44 C9 56 55 56 55 44"/>
+</g>
+<text x="1590" y="1008" font-size="15" fill="#101828" font-weight="400" text-anchor="start">ES index / alias</text>
+</g></svg>

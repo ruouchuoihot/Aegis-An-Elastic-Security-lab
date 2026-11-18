@@ -1,5 +1,0 @@
-{
-  "rule_id": "aegis-smb-admin-share-lateral-movement",
-  "from": "now-5m",
-  "max_signals": 1000
-}

@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 DC=docker compose
 
@@ -39,7 +39,7 @@ simulate:
 	@echo "Simulation started. Logs are being sent to logs-aegis-simulation-default"
 
 ai:
-	$(DC) up -d ai-gateway
+	$(DC) up -d --build ai-gateway
 	@echo "AI Gateway started on http://localhost:8000"
 	@echo "Check http://localhost:8000/docs for the API schema."
 
@@ -52,3 +52,21 @@ advanced:
 clean:
 	$(DC) down -v --remove-orphans
 	@echo "Volumes removed."
+
+test:
+	python -m unittest discover -s tests -v
+
+windows-up:
+	$(DC) up -d es01
+	python scripts/prepare_windows_lab.py --start --run-smoke
+
+kibana:
+	$(DC) up -d kibana
+	python scripts/setup_kibana_views.py
+
+windows-status:
+	docker logs --tail 15 project-aegis-windows-lab-1
+	python scripts/verify_windows_lab.py
+
+windows-stop:
+	$(DC) --env-file .env --env-file lab/runtime/windows.env -f docker-compose.yml -f compose.windows.yml stop windows-lab

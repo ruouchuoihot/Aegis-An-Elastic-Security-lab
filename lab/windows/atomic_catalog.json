@@ -1,0 +1,125 @@
+[
+  {
+    "id": "process-discovery",
+    "technique": "T1057",
+    "guid": "c5806a4f-62b8-4900-980b-c7ec004e9908",
+    "name": "Process Discovery - tasklist",
+    "processes": [
+      "tasklist.exe"
+    ]
+  },
+  {
+    "id": "user-discovery",
+    "technique": "T1033",
+    "guid": "aab580c7-cc30-4a7c-b5a9-46a29066b022",
+    "name": "User Discovery - whoami",
+    "processes": [
+      "whoami.exe"
+    ]
+  },
+  {
+    "id": "hostname-discovery",
+    "technique": "T1082",
+    "guid": "85cfbf23-4a1e-4342-8792-007e004b975f",
+    "name": "Hostname Discovery",
+    "processes": [
+      "hostname.exe"
+    ]
+  },
+  {
+    "id": "system-discovery",
+    "technique": "T1082",
+    "guid": "66703791-c902-4560-8770-42b8a91f7667",
+    "name": "System Information Discovery",
+    "processes": [
+      "systeminfo.exe",
+      "reg.exe"
+    ]
+  },
+  {
+    "id": "network-discovery",
+    "technique": "T1016",
+    "guid": "970ab6a1-0157-4f3f-9a73-ec4166754b23",
+    "name": "Network Configuration Discovery",
+    "processes": [
+      "ipconfig.exe",
+      "netsh.exe",
+      "arp.exe",
+      "nbtstat.exe",
+      "net.exe"
+    ]
+  },
+  {
+    "id": "encoded-powershell",
+    "technique": "T1059.001",
+    "guid": "a538de64-1c74-46ed-aa60-b995ed302598",
+    "name": "Encoded PowerShell execution",
+    "processes": [
+      "powershell.exe"
+    ],
+    "input_args": {
+      "obfuscated_code": "VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAEEAZQBnAGkAcwAgAGUAeABlAGMAdQB0AGkAbwBuACAAcwBhAG0AcABsAGUAJwA="
+    },
+    "rule_id": "aegis-aisoc-encoded-powershell"
+  },
+  {
+    "id": "registry-run-key",
+    "technique": "T1547.001",
+    "guid": "e55be3fd-3521-4610-9d1a-e210e42dcf05",
+    "name": "Registry Run key persistence",
+    "processes": [
+      "reg.exe"
+    ],
+    "input_args": {
+      "command_to_execute": "C:\\Windows\\System32\\cmd.exe /c exit"
+    },
+    "cleanup": true,
+    "rule_id": "aegis-aisoc-registry-run-key"
+  },
+  {
+    "id": "task-suspicious-path",
+    "technique": "T1053.005",
+    "guid": "42f53695-ad4a-4546-abb6-7d837f644a71",
+    "name": "Scheduled task action in writable directory",
+    "processes": [
+      "schtasks.exe"
+    ],
+    "input_args": {
+      "task_command": "\"C:\\Windows\\Temp\\AegisScenario\\marker.cmd\"",
+      "time": "23:59 /RU SYSTEM"
+    },
+    "cleanup": true,
+    "rule_id": "aegis-aisoc-task-suspicious-path",
+    "recipe_note": "Explicit SYSTEM task principal via fixed /ST argument suffix; upstream command otherwise unchanged. Task removed immediately after observation."
+  },
+  {
+    "id": "task-encoded-command",
+    "technique": "T1053.005",
+    "guid": "42f53695-ad4a-4546-abb6-7d837f644a71",
+    "name": "Scheduled task with encoded command",
+    "processes": [
+      "schtasks.exe"
+    ],
+    "input_args": {
+      "task_command": "\"powershell.exe -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAEEAZQBnAGkAcwAgAGUAeABlAGMAdQB0AGkAbwBuACAAcwBhAG0AcABsAGUAJwA=\"",
+      "time": "23:59 /RU SYSTEM"
+    },
+    "cleanup": true,
+    "rule_id": "aegis-aisoc-task-encoded-command",
+    "recipe_note": "Explicit SYSTEM task principal via fixed /ST argument suffix; upstream command otherwise unchanged. Task removed immediately after observation."
+  },
+  {
+    "id": "certutil-decode",
+    "technique": "T1140",
+    "guid": "dc6fe391-69e6-4506-bd06-ea5eeb4082f8",
+    "name": "Certutil file decoding",
+    "processes": [
+      "certutil.exe"
+    ],
+    "input_args": {
+      "executable": "C:\\AegisLab\\scenario-work\\seed.txt"
+    },
+    "cleanup": true,
+    "rule_id": "aegis-aisoc-certutil-decode"
+  }
+]

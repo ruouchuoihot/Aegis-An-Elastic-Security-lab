@@ -1,0 +1,35 @@
+# Optional Windows VM managed by Docker; requires /dev/kvm.
+# Prepare first: python scripts/prepare_windows_lab.py
+services:
+  windows-lab:
+    depends_on:
+      es01:
+        condition: service_healthy
+    image: ${WINDOWS_IMAGE:-dockurr/windows@sha256:16fd7c39a3e48bb946d29c59dc6015942e5b900a1fa5d7e5552053bfc48ee2ea}
+    profiles: [windows-lab]
+    environment:
+      VERSION: "${WINDOWS_VERSION:-2022}"
+      EDITION: "${WINDOWS_EDITION:-core}"
+      RAM_SIZE: "${WINDOWS_RAM:-2G}"
+      CPU_CORES: "${WINDOWS_CPUS:-2}"
+      DISK_SIZE: "${WINDOWS_DISK:-32G}"
+      DISK_FMT: qcow2
+      USERNAME: Aegis
+      PASSWORD: "${WINDOWS_PASSWORD:?Run scripts/prepare_windows_lab.py and use --env-file lab/runtime/windows.env}"
+      HOST: AEGIS-WINLAB
+      SAMBA: "Y"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add: [NET_ADMIN]
+    ports:
+      - "127.0.0.1:${WINDOWS_WEB_PORT:-18006}:8006"
+      - "127.0.0.1:${WINDOWS_RDP_PORT:-13389}:3389/tcp"
+    volumes:
+      - windows_storage:/storage
+      - ./lab/runtime/oem:/oem:ro
+      - ./lab/runtime/share:/shared
+    stop_grace_period: 2m
+    restart: "no"
+volumes:
+  windows_storage:

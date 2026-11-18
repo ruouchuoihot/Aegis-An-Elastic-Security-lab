@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aegis · Investigation console</title>
+  <link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="Aegis home"><span class="mark">A</span> AEGIS<span class="edition">SOC LAB</span></a>
+  <div class="nav-label">WORKSPACE</div>
+  <a class="nav active" href="#operations"><span>◈</span> Investigations</a>
+  <a class="nav" href="#alert-feed"><span>≋</span> Alert feed</a>
+  <a class="nav" href="#triage-queue"><span>▤</span> Alert triage</a>
+  <a class="nav" href="#analysis-history"><span>▤</span> AI analysis history</a>
+  <div class="nav-label">ELASTIC STACK</div>
+  <a class="nav" href="/siem" target="_blank" rel="noopener"><span>↗</span> SIEM / Alerts</a>
+  <a class="nav" href="/siem/rules" target="_blank" rel="noopener"><span>↗</span> SIEM / Rules</a>
+  <a class="nav" href="/kibana" target="_blank" rel="noopener"><span>↗</span> Kibana / Discover</a>
+  <div class="sidebar-bottom"><span class="status-dot"></span> Read-only response mode<p>Elastic-powered. Analyst-led.</p><span class="version">PROJECT AEGIS / 0.4</span></div>
+</aside>
+<main id="operations">
+  <header><div class="breadcrumb">WORKSPACE <span>/</span> SECURITY OPERATIONS</div><span class="lab-tag">RESEARCH ENVIRONMENT</span></header>
+  <section class="intro"><div><div class="eyebrow">INVESTIGATION CONSOLE</div><h1>From signal to evidence.</h1><p>Correlate alerts, investigate context, and keep every decision reviewable.</p></div><div class="system"><span class="status-dot" id="connection-dot"></span><span id="connection">Not connected</span></div></section>
+  <form id="scope-form" class="toolbar">
+    <label>From <input id="start" type="datetime-local" required></label>
+    <label>To <input id="end" type="datetime-local" required></label>
+    <label>Gateway token <input id="token" type="password" autocomplete="off" placeholder="If configured"></label>
+    <label class="live-label"><input id="live" type="checkbox" checked> Live · 30s</label><button type="submit" id="refresh">Refresh workspace ↗</button>
+  </form>
+  <p id="notice" role="status" aria-live="polite">Choose an evidence window and refresh. Times use your browser's local timezone.</p>
+  <section class="metrics" aria-label="Evidence scope statistics">
+    <article><span>ALERTS IN SCOPE</span><strong id="alert-count">—</strong><small>When the activity occurred</small></article>
+    <article><span>CORRELATED INCIDENTS</span><strong id="incident-count">—</strong><small>Related alerts grouped by host and time</small></article>
+    <article><span>HIGH / CRITICAL ALERTS</span><button type="button" id="filter-high" class="metric-link" aria-label="Show high and critical alerts"><strong id="high-count">—</strong></button><small>Individual alerts · click to filter</small></article>
+    <article><span>AI ORCHESTRATOR</span><strong class="agent-state" id="agent-state">—</strong><small id="agent-model">Provider status not loaded</small></article>
+  </section>
+  <section class="panel triage-panel" id="triage-queue"><div class="panel-heading"><div><span class="eyebrow">ALERT TRIAGE</span><h2>Alerts by priority</h2></div><span class="pill" id="triage-count">Loading alerts</span></div>
+    <div class="triage-filters"><label>Severity <select id="alert-severity"><option value="all">All severities</option><option value="high-critical">High / Critical</option><option value="critical">Critical · P1</option><option value="high">High · P2</option><option value="medium">Medium · P3</option><option value="low">Low · P4</option></select></label><label>Search alerts <input id="alert-search" type="search" placeholder="Rule, host or process"></label><p class="muted">Priority follows severity: P1 critical, P2 high, P3 medium, P4 low.</p></div>
+    <div class="table-scroll"><table class="alert-table"><thead><tr><th>Priority</th><th>Alert name</th><th>AI analysis</th><th>Severity</th><th>Risk</th><th>Host</th><th>Activity time</th><th>SIEM</th></tr></thead><tbody id="alert-queue-body"></tbody></table></div>
+    <div class="triage-pagination"><button id="alerts-prev" class="secondary" type="button">Previous</button><span id="alert-page" class="muted"></span><button id="alerts-next" class="secondary" type="button">Next</button></div>
+  </section>
+  <section class="operations-grid" aria-label="Lab operations">
+    <article class="panel"><div class="panel-heading"><div><span class="eyebrow">WINDOWS TELEMETRY</span><h2>Collection & discovery activity</h2></div><strong id="log-count">—</strong></div><div class="ops-body"><p id="log-status" class="muted">Loading telemetry…</p><div id="event-chart" class="event-chart" aria-label="Events per five minutes"></div><div id="techniques" class="technique-list"></div></div></article>
+    <article class="panel"><div class="panel-heading"><div><span class="eyebrow">ATOMIC RED TEAM</span><h2>Scheduled lab activity</h2></div><span id="schedule-state" class="pill">—</span></div><div class="ops-body"><p id="schedule-note"></p><p id="detection-status" class="muted"></p><div id="atomic-runs" class="run-list"></div></div></article>
+  </section>
+  <section class="panel detection-library" id="detection-catalog"><div class="panel-heading"><div><span class="eyebrow">DETECTION LIBRARY</span><h2>Windows detection rule pack</h2></div><span class="pill" id="rule-pack-state">Loading rules</span></div><p class="feed-caption">Native Windows detection rules. Counts reflect alerts in the selected evidence window; a match needs investigation.</p><div id="rule-cards" class="rule-cards"></div></section>
+  <section class="panel jobs-panel" id="analysis-history"><div class="panel-heading"><div><span class="eyebrow">ORCHESTRATOR</span><h2>AI analysis history</h2></div><span class="pill">2 specialist reviews → join → report</span></div><div id="jobs" class="ops-body"><p class="muted">Investigations run when requested; detection runs automatically.</p></div></section>
+  <section class="panel feed" id="alert-feed"><div class="panel-heading"><div><span class="eyebrow">SIGNALS IN THIS WINDOW</span><h2>Alert feed</h2></div><button class="secondary" id="run-rules">Sync SIEM alerts</button></div><p class="feed-caption">Up to 20 alerts from the selected activity-time window. Rules execute on their Elastic Security schedules; the portal syncs native alerts every 30 seconds. Historical gateway alerts remain available.</p><div id="alerts" class="alert-list"><p class="empty">No alerts loaded.</p></div></section>
+  <footer><span>AEGIS / OPEN SOURCE SECURITY OPERATIONS</span><span>Evidence first. Human review always.</span></footer>
+</main>
+<dialog id="report-dialog" aria-labelledby="report-title">
+  <div class="report-dialog-header"><div><span class="eyebrow">AI INVESTIGATION</span><h2 id="report-title">Investigation report</h2><p id="report-meta" class="muted"></p></div><button id="close-report" class="secondary" type="button" aria-label="Close report">Close ✕</button></div>
+  <div id="report-content" class="report-dialog-content"></div>
+</dialog>
+<dialog id="alert-dialog" aria-labelledby="alert-title"><div class="report-dialog-header"><div><span class="eyebrow">INDIVIDUAL ALERT</span><h2 id="alert-title">Alert details</h2><p id="alert-meta" class="muted"></p></div><button id="close-alert" class="secondary" type="button" aria-label="Close alert">Close ✕</button></div><div id="alert-content" class="report-dialog-content"></div></dialog>
+</body></html>

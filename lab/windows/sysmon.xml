@@ -1,0 +1,12 @@
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>sha256</HashAlgorithms>
+  <EventFiltering>
+    <ProcessCreate onmatch="exclude" />
+    <RegistryEvent onmatch="include">
+      <TargetObject condition="contains">\Software\Microsoft\Windows\CurrentVersion\Run</TargetObject>
+    </RegistryEvent>
+    <NetworkConnect onmatch="include">
+      <Image condition="end with">\tasklist.exe</Image>
+    </NetworkConnect>
+  </EventFiltering>
+</Sysmon>

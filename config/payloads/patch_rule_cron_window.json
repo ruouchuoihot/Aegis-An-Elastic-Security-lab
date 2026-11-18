@@ -1,5 +1,0 @@
-{
-  "rule_id": "aegis-cron-persistence",
-  "from": "now-5m",
-  "max_signals": 1000
-}

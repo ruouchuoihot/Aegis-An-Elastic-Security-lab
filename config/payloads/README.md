@@ -14,9 +14,3 @@ They are kept out of the project root because the core runtime is `docker-compos
 - `monitoring_settings.json`: Elasticsearch monitoring collection setting.
 - `output_config.json`: Fleet default Elasticsearch output.
 - `policy.json`, `policy_fs.json`, `policy_agent.json`: Fleet policy payloads.
-- `fleet_server_package_policy.json`: Fleet Server integration package policy for `aegis-fleet-server`.
-- `enrollment_token_agent.json`: request body for generating an enrollment token for `aegis-agent-policy`.
-- `run_rules_create_alerts.json`: request body for running Aegis rules and creating lab-managed alerts.
-- `data_view_aegis_alerts.json`: Kibana data view for the lab-managed `aegis-alerts-default` index.
-- `native_rule_*.json`: Kibana Security Detection Engine rules for the Aegis simulator.
-- `patch_rule_*_window.json`: small PATCH payloads for tuning rule lookback windows.
