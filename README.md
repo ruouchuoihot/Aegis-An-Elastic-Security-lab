@@ -101,9 +101,6 @@ The report identifies the bounded evidence sample, lists what still needs verifi
 | Final assessment | `inconclusive`, displayed as **More evidence needed** |
 | Ledger integrity check after saving | Valid hash chain across 22 entries |
 
-> [!NOTE]
-> Captured on November 18, 2026, using saved Windows lab telemetry from November 17. Alert counts, model choice, report IDs, and timestamps belong to this example. A completed investigation means the workflow produced a validated, saved report; it does not establish that an alert is malicious. This run demonstrates the investigation and reporting path, not detection accuracy or fresh Windows ingestion. AI recommendations remain subject to analyst review, and no response action is executed.
-
 ## Requirements
 
 - Docker and Docker Compose.
